@@ -1,3 +1,35 @@
+Hinweis
+---
+Diese Lösung baut auf einem beliebig erweiterbaren Design auf. 
+Man ist also zum Beispiel nicht auf die Anzahl der Geräte oder Transporter beschränkt, sondern kann diese beliebig in der index.php anpassen.
+
+Der Code des `master`-Branches ist englisch (Ausgenommen der Hardware-Bezeichnungen).
+Für eine komplette, deutsche Übersetzung gibt es den `german`-Branch.
+
+
+Ausführung
+---
+Für die Ausführung des Codes stehen zwei Möglichkeiten zur Verfügung:
+1) Ist auf dem aktuellen Rechner / Server PHP installiert, kann das Programm über die Kommandozeile mit  `php pfad/zum/projekt/index.php` gestartet werden
+2) Sollte das Programm auf einem Webserver installiert sein, kann durch das aufrufen der index.php im Browser das Programm gestartet werden
+
+Hinweis: Die Ansicht im Browser enthält mehr Details, während sich die CLI-Ansicht auf das Ergebnis beschränkt
+
+Achtung: Vorraussetzung für die Ausführung des Codes ist mindestens PHP 7.0 erforderlich 
+
+
+
+Wahl des Algorythmus
+---
+Der von mir gewählte Algorythmus besteht aus zwei Stufen:
+
+1) Befüllen der Transporter mit der Hardware mit dem besten Gewicht-Nutzwert-Verhältnis
+
+2) Austauschen einzelner Hardware Geräte um den verbleibenden Platz zu nutzen
+
+
+
+
 Vorgehensweise
 ---
 
@@ -21,8 +53,10 @@ Dateien
     - Haupt-Datei, Einstiegspunkt und deklariert die Variablen
 - scripts/compute.php
     - Enthält den Algorythmus zum Befüllen der Transporter
-- scripts/output.php
-    - Enthält das PHTML, welches am Ende ausgegeben wird
+- scripts/output-browser.php
+    - Enthält das PHTML, welches bei einem Aufruf über den Browser ausgegeben wird
+- scripts/output-cli.php
+    - Enthält die Ausgabe der Lösung für einen Aufruf über die CLI
 - src/Hardware.php
     - Die Klasse für ein Hardware Gerät
 - src/Transporter 
