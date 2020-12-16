@@ -8,6 +8,7 @@ Vorgehensweise
 3) Die Transporter werden mit möglichst viel effizienter Hardware beladen
 
 4) Jeder Transporter prüft, ob genug Platz vorhanden ist, ein Gerät mit einem schwereren Auszutauschen, das einen höheren Nutzwert besitzt
+    - Es wird auf einen 1:1 und einen 1:2 Tausch geprüft
 
 5) Schritt 4 wird wiederholt, bis keine Änderungen mehr gemacht werden
 

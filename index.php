@@ -51,4 +51,11 @@ doAlgorythmStuff($transporters, $hardware);
 /*
  * Scheme for the output
  */
-include("scripts/output.php");
+if(defined('STDIN')) {
+    //the file is called from the cli
+    include("scripts/output-cli.php");
+}
+else {
+    //the file is called from a browser
+    include("scripts/output-browser.php");
+}

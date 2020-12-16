@@ -69,13 +69,53 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
                 //check the required hardware items by the given criteria
                 /** @var Hardware $item */
                 foreach($hardware as $item) {
-                    if($item->getValue() <= $itemValue) continue;
-                    if($item->getWeight() > $capacityWhenRemoved) continue;
-                    if($item->getRequirement() <= 0) continue;
+
+                    //check the criteria for this one hardware item
+                    if(
+                        $item->getValue() > $itemValue &&
+                        $item->getWeight() <= $capacityWhenRemoved &&
+                        $item->getRequirement() > 0
+                    ) {
+                        //this item would be good to swap, so add it to the array
+                        $possibleSwaps[$cargoItem->getName()] = [$item->getName(), $item->getValue() - $itemValue];
 
 
-                    //this item would be good to swap, so add it to the array
-                    $possibleSwaps[$cargoItem->getName()] = [$item->getName(), $item->getValue() - $itemValue];
+                    }
+                    else {
+
+                        //start a second loop, to check for a combination from the two hardware items
+                        /** @var Hardware $itemSec */
+                        foreach ($hardware as $itemSec) {
+
+                            $value          =    $item->getValue()           +  $itemSec->getValue();
+                            $weight         =    $item->getWeight()          +  $itemSec->getWeight();
+
+                            //if both items are the same, then the requirement is "at least two of them", else "at least one of each"
+                            if($item->getName() == $itemSec->getName()) {
+                                $requirement = $itemSec->getRequirement();
+                            }
+                            else {
+                                $requirement = ($item->getRequirement() > 0)  +  ($itemSec->getRequirement() > 0);
+                            }
+
+
+
+                            //check the criteria for this two hardware items
+                            if(
+                                $value > $itemValue &&
+                                $weight <= $capacityWhenRemoved &&
+                                $requirement >= 2
+                            ) {
+                                //this items would be good to swap, so add them to the array
+                                $possibleSwaps[$cargoItem->getName()] = [
+                                    [$item->getName(), $itemSec->getName()],
+                                    $value - $itemValue];
+                            }
+                        }
+
+                    }
+
+
                 }
 
             }
@@ -95,7 +135,16 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
                 foreach($possibleSwaps as $cargoItemName => $swap) {
                     //swap the items
                     $transporter->removeHardware($hardware[$cargoItemName], 1);
-                    $transporter->addHardware($hardware[$swap[0]], 1);
+
+                    if(is_array($swap[0])) {
+                        $transporter->addHardware($hardware[$swap[0][0]], 1);
+                        $transporter->addHardware($hardware[$swap[0][1]], 1);
+                    }
+                    else {
+                        $transporter->addHardware($hardware[$swap[0]], 1);
+                    }
+
+
 
                     break;
                 }
@@ -108,10 +157,6 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
 
     }
     while($changesMade);
-
-
-
-
 
 }
 
