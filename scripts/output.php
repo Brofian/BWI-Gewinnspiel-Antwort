@@ -1,4 +1,8 @@
 <?php
+
+use src\Hardware;
+use src\Transporter;
+
 //Re-deklare the variables for better usage
     /** @var array  $transporter */
     $transporters = $transporters ?? [];
@@ -24,7 +28,7 @@
     </thead>
 
 
-    <?php /** @var src\Hardware $item */?>
+    <?php /** @var Hardware $item */?>
     <?php foreach($hardware as $item): ?>
         <?php $count = (isset($count)) ? $count+1 : 1; ?>
 
@@ -50,29 +54,29 @@
     <thead>
         <tr>
             <td>Truck ID</td>
-            <td>Maximales Gewicht (in kg)</td>
-            <td>Fahrergewicht (in kg)</td>
-            <td>Verbleibendes Lastgewicht (in kg)</td>
+            <td>Maximales Gewicht (in g)</td>
+            <td>Fahrergewicht (in g)</td>
+            <td>Verbleibendes Lastgewicht (in g)</td>
             <td>Gesamtwert</td>
             <td>Ladung</td>
         </tr>
     </thead>
 
 
-    <?php /** @var src\Transporter $transporter */?>
+    <?php /** @var Transporter $transporter */?>
     <?php foreach($transporters as $transporter): ?>
     <?php $count = (isset($count)) ? $count+1 : 1; ?>
 
         <tr>
             <td><?php echo $count; ?></td>
-            <td><?php echo g2kg($transporter::MAX_CAPACITY); ?></td>
-            <td><?php echo g2kg($transporter->getDriverWeight()); ?></td>
-            <td><?php echo g2kg($transporter->getCurrentCapacity()); ?></td>
+            <td><?php echo $transporter::MAX_CAPACITY; ?></td>
+            <td><?php echo $transporter->getDriverWeight(); ?></td>
+            <td><?php echo $transporter->getCurrentCapacity(); ?></td>
             <td><?php echo $transporter->getCurrentValue(); ?></td>
             <td>
                 <ul>
                     <?php foreach($transporter->getCurrentCargo() as $cargo): ?>
-                    <?php $hardware = $cargo[0]; /** @var src\Hardware $hardware */
+                    <?php $hardware = $cargo[0]; /** @var Hardware $hardware */
                           $amount = $cargo[1];   /** @var int $amount */ ?>
 
                         <li>
@@ -90,10 +94,3 @@
 </table>
 
 Gesamtwert: <?php echo getTotalValue($transporters); ?>
-
-
-<?php
-function g2kg(int $g) {
-    return $g/1000;
-}
-?>

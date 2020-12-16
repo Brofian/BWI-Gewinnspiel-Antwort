@@ -63,6 +63,27 @@ class Transporter
     }
 
 
+    /**
+     * Remove the amount of cargo with the given name
+     *
+     * @param Hardware $hardware
+     * @param int $amount
+     */
+    public function removeHardware(Hardware &$hardware, $amount = 1) {
+        //if the hardware is stored and enough of it, remove the amount
+        if(isset($this->cargo[$hardware->getName()]) && $this->cargo[$hardware->getName()][1] >= $amount) {
+
+            $this->cargo[$hardware->getName()][1] -= $amount;
+
+            $hardware->addToStock($amount);
+
+            if($this->cargo[$hardware->getName()][1] <= 0) {
+                unset($this->cargo[$hardware->getName()]);
+            }
+        }
+    }
+
+
 
 
     /**
@@ -106,12 +127,30 @@ class Transporter
     }
 
 
+
+
     /**
      * @return array
      */
     public function getCurrentCargo() : array{
         return $this->cargo;
     }
+
+    /**
+     * Returns only an array of the stored hardware without the amount
+     *
+     * return array
+     */
+    public function getCurrentCargoRaw() {
+        $hardware = [];
+
+        foreach($this->cargo as $cargo) {
+            $hardware[] = $cargo[0];
+        }
+
+        return $hardware;
+    }
+
 
     /** @return int */
     public function getDriverWeight() {

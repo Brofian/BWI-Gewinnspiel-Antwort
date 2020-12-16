@@ -7,8 +7,22 @@ Vorgehensweise
 
 3) Die Transporter werden mit möglichst viel effizienter Hardware beladen
 
+4) Jeder Transporter prüft, ob genug Platz vorhanden ist, ein Gerät mit einem schwereren Auszutauschen, das einen höheren Nutzwert besitzt
+
+5) Schritt 4 wird wiederholt, bis keine Änderungen mehr gemacht werden
 
 
-TODO:
 
-- Die Ladung prüfen, ob eine möglichst ineffiziente Hardware gegen eine ineffizientere, aber nützlichere getauscht werden kann
+
+Dateien
+---
+- index.php
+    - Haupt-Datei, Einstiegspunkt und deklariert die Variablen
+- scripts/compute.php
+    - Enthält den Algorythmus zum Befüllen der Transporter
+- scripts/output.php
+    - Enthält das PHTML, welches am Ende ausgegeben wird
+- src/Hardware.php
+    - Die Klasse für ein Hardware Gerät
+- src/Transporter 
+    - Die Klasse für einen Transporter

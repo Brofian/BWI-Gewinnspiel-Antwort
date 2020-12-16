@@ -49,6 +49,14 @@ class Hardware
     }
 
 
+    /**
+     * @param int $amount
+     */
+    public function addToStock(int $amount)  {
+        $this->required += $amount;
+    }
+
+
 
 
 
