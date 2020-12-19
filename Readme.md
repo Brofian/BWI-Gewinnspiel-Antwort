@@ -15,7 +15,7 @@ Für die Ausführung des Codes stehen zwei Möglichkeiten zur Verfügung:
 
 Hinweis: Die Ansicht im Browser enthält mehr Details, während sich die CLI-Ansicht auf das Ergebnis beschränkt
 
-Achtung: Vorraussetzung für die Ausführung des Codes ist mindestens PHP 7.0 erforderlich 
+Achtung: Für die korrekte Ausführung des Codes ist mindestens PHP 7.1 erforderlich 
 
 
 
@@ -56,8 +56,8 @@ Dateien
 - scripts/output-browser.php
     - Enthält das PHTML, welches bei einem Aufruf über den Browser ausgegeben wird
 - scripts/output-cli.php
-    - Enthält die Ausgabe der Lösung für einen Aufruf über die CLI
+    - Enthält die Ausgabe der Lösung für einen Aufruf über die Kommandozeile
 - src/Hardware.php
     - Die Klasse für ein Hardware Gerät
-- src/Transporter 
+- src/Transporter.php 
     - Die Klasse für einen Transporter
