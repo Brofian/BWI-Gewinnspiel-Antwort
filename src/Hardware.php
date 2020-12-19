@@ -5,16 +5,17 @@ namespace src;
 class Hardware
 {
 
-    /** @var string  */
+    /** @var string */
     private $name = "";
-    /** @var int  */
+    /** @var int */
     private $required = 0;
-    /** @var int  */
+    /** @var int */
     private $weight = 0;
-    /** @var int  */
+    /** @var int */
     private $value = 0;
-    /** @var float  */
+    /** @var float */
     private $efficiency = 0;
+
 
     /**
      * Hardware constructor.
@@ -34,16 +35,25 @@ class Hardware
     }
 
 
+
+
+    /*
+    * ##################################################
+    * #             Class-methods                      #
+    * ##################################################
+    */
+
+
     /**
      * @param int $amount
      * @return bool
      */
-    public function removeFromStock(int $amount) : bool {
-        if($this->required >= $amount) {
+    public function removeFromRequirement(int $amount): bool
+    {
+        if ($this->required >= $amount) {
             $this->required -= $amount;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
@@ -52,7 +62,8 @@ class Hardware
     /**
      * @param int $amount
      */
-    public function addToStock(int $amount)  {
+    public function addToRequirement(int $amount)
+    {
         $this->required += $amount;
     }
 
@@ -61,37 +72,44 @@ class Hardware
 
 
 
-
-
+    /*
+     * ##################################################
+     * #             Get-methods                        #
+     * ##################################################
+     */
 
 
     /** @return string */
-    public function getName() : string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
     /** @return int */
-    public function getRequirement() : int {
+    public function getRequirement(): int
+    {
         return $this->required;
     }
 
     /** @return int */
-    public function getWeight() : int {
+    public function getWeight(): int
+    {
         return $this->weight;
     }
 
     /** @return int */
-    public function getValue() : int {
+    public function getValue(): int
+    {
         return $this->value;
     }
 
     /**
      * @return float
      */
-    public function getEfficiency() : float {
+    public function getEfficiency(): float
+    {
         return $this->efficiency;
     }
-
 
 
 }

@@ -1,8 +1,11 @@
 <?php
 
+//Require the two classes for the Hardware and for the transporters
+
 require_once("src/Hardware.php");
 require_once("src/Transporter.php");
 
+//use class namespaces
 use src\Hardware;
 use src\Transporter;
 
@@ -27,6 +30,7 @@ $hardware = [
     'Tablet outdoor groß' => new Hardware('Tablet outdoor groß', 370, 1980, 68),
 ];
 
+
 /** @var array $transporters */
 $transporters = [
     new Transporter(72400),
@@ -37,11 +41,13 @@ $transporters = [
 
 
 
+
 /*
- * Computation
+ * Computation (happens in the functions, that are declared in scripts/algorythm.php)
  */
-include("scripts/compute.php");
+include("scripts/algorythm.php");
 doAlgorythmStuff($transporters, $hardware);
+
 
 
 

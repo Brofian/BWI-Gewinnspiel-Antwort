@@ -3,14 +3,16 @@
 use src\Hardware;
 use src\Transporter;
 
-//Re-deklare the variables for better usage
-    /** @var array  $transporter */
+    //Re-declare the variables as reference for the IDE
+    /** @var array $transporter */
     $transporters = $transporters ?? [];
-    /** @var array  $hardware */
+    /** @var array $hardware */
     $hardware = $hardware ?? [];
-
 ?>
 
+<!-- Warning! -->
+<!-- The following html markup is not commented or well structured, because it doesnt belong to the Project-Code. -->
+<!-- For a serious and more simpler output, please call the index.php from a command line -->
 
 <html lang="de">
     <head>
@@ -33,20 +35,25 @@ use src\Transporter;
                 border: 1px solid #000;
                 width: 100%;
             }
+
             table tr {
                 border: 1px solid #000;
             }
+
             table tr td {
                 border: 1px solid #000;
                 padding: 10px;
                 text-align: center;
             }
+
             table tr td:last-of-type {
                 text-align: left;
             }
+
             table thead tr td {
                 background: #00e2a2;
             }
+
             table thead tr td:last-of-type {
                 text-align: center;
             }
@@ -74,6 +81,7 @@ use src\Transporter;
                     transform: scaleX(-1);
                 }
             }
+
             #animationSpace {
                 position: absolute;
                 top: 0;
@@ -81,6 +89,7 @@ use src\Transporter;
                 width: 100%;
                 transform: translateY(-100%);
             }
+
             #animationSpace .car {
                 height: 30px;
                 width: 50px;
@@ -92,6 +101,7 @@ use src\Transporter;
                 animation-iteration-count: infinite;
                 animation-name: carDrive;
             }
+
             #animationSpace .car:before,
             #animationSpace .car:after {
                 content: "";
@@ -102,18 +112,22 @@ use src\Transporter;
                 background: black;
                 border-radius: 50%;
             }
+
             #animationSpace .car:after {
                 right: 0;
             }
+
             #animationSpace .car {
                 background: red;
                 left: 0;
             }
+
             #animationSpace .car:last-of-type {
                 background: blue;
                 right: 0;
                 animation-delay: -4s;
             }
+
             #animationSpace .car .car-screen {
                 position: absolute;
                 height: 20px;
@@ -142,52 +156,54 @@ use src\Transporter;
             <table>
 
                 <thead>
-                    <tr>
-                        <td>Truck ID</td>
-                        <td>Maximum weight (in g)</td>
-                        <td>Driver weight (in g)</td>
-                        <td>Unused weight (in g)</td>
-                        <td>Value</td>
-                        <td>Cargo</td>
-                    </tr>
+                <tr>
+                    <td>Truck ID</td>
+                    <td>Maximum weight (in g)</td>
+                    <td>Driver weight (in g)</td>
+                    <td>Unused weight (in g)</td>
+                    <td>Value</td>
+                    <td>Cargo</td>
+                </tr>
                 </thead>
                 <tbody>
 
-                    <?php /** @var Transporter $transporter */?>
-                    <?php foreach($transporters as $transporter): ?>
-                        <?php $count = (isset($count)) ? $count+1 : 1; ?>
+                <?php /** @var Transporter $transporter */ ?>
+                <?php foreach ($transporters as $transporter): ?>
+                    <?php $count = isset($count) ? $count++ : 1; ?>
 
-                        <tr>
-                            <td><?php echo $count; ?></td>
-                            <td><?php echo $transporter::MAX_CAPACITY; ?></td>
-                            <td><?php echo $transporter->getDriverWeight(); ?></td>
-                            <td><?php echo $transporter->getCurrentCapacity(); ?></td>
-                            <td><?php echo $transporter->getCurrentValue(); ?></td>
-                            <td>
-                                <ul>
-                                    <?php foreach($transporter->getCurrentCargo() as $cargo): ?>
-                                        <?php $cargoItem = $cargo[0]; /** @var Hardware $cargoItem */
-                                        $amount = $cargo[1];   /** @var int $amount */ ?>
+                    <tr>
+                        <td><?php echo $count; ?></td>
+                        <td><?php echo $transporter::MAX_CAPACITY; ?></td>
+                        <td><?php echo $transporter->getDriverWeight(); ?></td>
+                        <td><?php echo $transporter->getCurrentCapacity(); ?></td>
+                        <td><?php echo $transporter->getCurrentValue(); ?></td>
+                        <td>
+                            <ul>
+                                <?php foreach ($transporter->getCurrentCargo() as $cargo): ?>
+                                    <?php
+                                        /** @var Hardware $cargoItem */
+                                        $cargoItem = $cargo[0];
+                                        /** @var int $amount */
+                                        $amount = $cargo[1];
+                                    ?>
 
-                                        <li>
-                                            <?php echo $amount; ?>x <?php echo $cargoItem->getName(); ?>
-                                        </li>
+                                    <li>
+                                        <?php echo $amount; ?>x <?php echo $cargoItem->getName(); ?>
+                                    </li>
 
-                                    <?php endforeach ?>
-                                </ul>
-                            </td>
+                                <?php endforeach ?>
+                            </ul>
+                        </td>
+                    </tr>
 
-                        </tr>
-
-                    <?php endforeach ?>
+                <?php endforeach ?>
 
                 </tbody>
             </table>
         </div>
 
 
-
-        <h1>Hardware</h1>
+        <h1>Additional info: Hardware (end-state)</h1>
 
         <table>
 
@@ -195,34 +211,32 @@ use src\Transporter;
             <tr>
                 <td>Hardware ID</td>
                 <td>Name</td>
-                <td>Gewicht (in g)</td>
-                <td>Nutzwert</td>
-                <td>Effizienz-Wert</td>
-                <td>Verbleibend</td>
+                <td>Weight (in g)</td>
+                <td>Usage-value</td>
+                <td>Efficiency-value</td>
+                <td>Remaining in Storage</td>
             </tr>
             </thead>
 
             <tbody>
-                <?php /** @var Hardware $item */?>
-                <?php $count = 0; ?>
-                <?php foreach($hardware as $item): ?>
-                    <?php $count++; ?>
+            <?php /** @var Hardware $item */ ?>
+            <?php foreach ($hardware as $item): ?>
+                <?php $counter = isset($counter) ? $counter++ : 1 ?>
 
-                    <tr>
-                        <td><?php echo $count; ?></td>
-                        <td><?php echo $item->getName(); ?></td>
-                        <td><?php echo $item->getWeight(); ?></td>
-                        <td><?php echo $item->getValue(); ?></td>
-                        <td><?php echo $item->getEfficiency(); ?></td>
-                        <td><?php echo $item->getRequirement(); ?></td>
-                    </tr>
+                <tr>
+                    <td><?php echo $count; ?></td>
+                    <td><?php echo $item->getName(); ?></td>
+                    <td><?php echo $item->getWeight(); ?></td>
+                    <td><?php echo $item->getValue(); ?></td>
+                    <td><?php echo $item->getEfficiency(); ?></td>
+                    <td><?php echo $item->getRequirement(); ?></td>
+                </tr>
 
-                <?php endforeach ?>
+            <?php endforeach ?>
 
             </tbody>
 
         </table>
-
 
 
     </body>

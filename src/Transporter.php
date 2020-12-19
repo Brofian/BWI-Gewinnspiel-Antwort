@@ -9,17 +9,20 @@ class Transporter
     /** @var int  */
     const MAX_CAPACITY = 1100000;
 
+
     /** @var int  */
     private $driverWeight = 0;
     /** @var array  */
     private $cargo = [];
 
 
+
+
     /**
      * Transporter constructor.
-     * @param $driverWeight
+     * @param int $driverWeight
      */
-    public function __construct($driverWeight)
+    public function __construct(int $driverWeight)
     {
         $this->driverWeight = $driverWeight;
     }
@@ -28,8 +31,17 @@ class Transporter
 
 
 
+    /*
+    * ##################################################
+    * #                 Class-methods                  #
+    * ##################################################
+    */
+
+
+
+
     /**
-     * Adds an $amount of $hardware to the transporter. Returns wether or not, the hardware could be loaded to the transporter
+     * Adds an $amount of $hardware to the transporter. Returns, wether or not the hardware could be loaded to the transporter
      *
      * @param Hardware $hardware
      * @param int $amount
@@ -39,14 +51,13 @@ class Transporter
 
         $newWeight = $hardware->getWeight() * $amount;
 
-        if($this->getCurrentCapacity() < $newWeight) {
 
+        if($this->getCurrentCapacity() < $newWeight) {
             //not enough space for the new hardware -> cancel
             return false;
         }
         else {
-
-            //store the hardware
+            //enough space -> store the hardware
             if(isset($this->cargo[$hardware->getName()])) {
                 //the hardware is already loaded, add $amount on top
                 $this->cargo[$hardware->getName()][1] += $amount;
@@ -56,7 +67,8 @@ class Transporter
                 $this->cargo[$hardware->getName()] = [$hardware, $amount];
             }
 
-            $hardware->removeFromStock($amount);
+            //remove the loaded hardware from the hardware´s stock
+            $hardware->removeFromRequirement($amount);
 
             return true;
         }
@@ -64,30 +76,57 @@ class Transporter
 
 
     /**
-     * Remove the amount of cargo with the given name
+     * Remove the $amount of $hardware from the cargo. Returns, wether or not the hardware could be removed
      *
      * @param Hardware $hardware
      * @param int $amount
+     * @return bool
      */
-    public function removeHardware(Hardware &$hardware, $amount = 1) {
+    public function removeHardware(Hardware &$hardware, $amount = 1) : bool {
+
         //if the hardware is stored and enough of it, remove the amount
         if(isset($this->cargo[$hardware->getName()]) && $this->cargo[$hardware->getName()][1] >= $amount) {
 
+            //remove hardware from cargo
             $this->cargo[$hardware->getName()][1] -= $amount;
 
-            $hardware->addToStock($amount);
-
+            //when there is no loaded $hardware in the cargo, remove the entry
             if($this->cargo[$hardware->getName()][1] <= 0) {
                 unset($this->cargo[$hardware->getName()]);
             }
+
+            //add the removed hardware back to the stock
+            $hardware->addToRequirement($amount);
+
+            return true;
         }
+        else {
+            return false;
+        }
+
     }
 
 
 
 
+
+
+
+
+
+    /*
+     * ##################################################
+     * #             Get-methods                        #
+     * ##################################################
+     */
+
+
+
+
+
     /**
-     * Returns the current capacity, that can be filled with more hardware
+     * Returns the current capacity of the transporter, that can be filled with more hardware
+     *
      * @return int
      */
     public function getCurrentCapacity() : int {
@@ -108,7 +147,11 @@ class Transporter
 
 
 
-
+    /**
+     * Sums up and returns the value of the current load (value = usage-value)
+     *
+     * @return int
+     */
     public function getCurrentValue() : int {
         $totalValue = 0;
 
@@ -119,29 +162,32 @@ class Transporter
             $amount = $cargo[1];
 
             $totalValue += $hardware->getValue() * $amount;
-
         }
 
         return $totalValue;
-
     }
 
 
 
 
     /**
+     * Returns the current load
+     *
      * @return array
      */
     public function getCurrentCargo() : array{
         return $this->cargo;
     }
 
+
+
+
     /**
-     * Returns only an array of the stored hardware without the amount
+     * Returns only an array of the stored hardware without any information about the amount
      *
-     * return array
+     * @return array
      */
-    public function getCurrentCargoRaw() {
+    public function getCurrentCargoRaw() : array {
         $hardware = [];
 
         foreach($this->cargo as $cargo) {
@@ -152,8 +198,14 @@ class Transporter
     }
 
 
-    /** @return int */
+
+
+    /**
+     * @return int
+     */
     public function getDriverWeight() {
         return $this->driverWeight;
     }
+
+
 }
