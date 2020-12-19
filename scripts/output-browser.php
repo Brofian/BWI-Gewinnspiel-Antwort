@@ -40,6 +40,10 @@ use src\Transporter;
                 border: 1px solid #000;
             }
 
+            table tr:nth-of-type(2n) {
+                background: #cccccc;
+            }
+
             table tr td {
                 border: 1px solid #000;
                 padding: 10px;
@@ -167,12 +171,12 @@ use src\Transporter;
                 </thead>
                 <tbody>
 
+                <?php $counter = 0; ?>
                 <?php /** @var Transporter $transporter */ ?>
                 <?php foreach ($transporters as $transporter): ?>
-                    <?php $count = isset($count) ? $count++ : 1; ?>
 
                     <tr>
-                        <td><?php echo $count; ?></td>
+                        <td><?php echo ++$counter; ?></td>
                         <td><?php echo $transporter::MAX_CAPACITY; ?></td>
                         <td><?php echo $transporter->getDriverWeight(); ?></td>
                         <td><?php echo $transporter->getCurrentCapacity(); ?></td>
@@ -219,12 +223,12 @@ use src\Transporter;
             </thead>
 
             <tbody>
+            <?php $counter = 0; ?>
             <?php /** @var Hardware $item */ ?>
             <?php foreach ($hardware as $item): ?>
-                <?php $counter = isset($counter) ? $counter++ : 1 ?>
 
                 <tr>
-                    <td><?php echo $count; ?></td>
+                    <td><?php echo ++$counter; ?></td>
                     <td><?php echo $item->getName(); ?></td>
                     <td><?php echo $item->getWeight(); ?></td>
                     <td><?php echo $item->getValue(); ?></td>

@@ -1,7 +1,7 @@
 <?php
 
-//Require the two classes for the Hardware and for the transporters
 
+//Require the two classes for the Hardware and for the transporters
 require_once("src/Hardware.php");
 require_once("src/Transporter.php");
 
