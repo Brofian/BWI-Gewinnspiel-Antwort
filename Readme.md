@@ -1,5 +1,7 @@
 Hinweis
 ---
+Dies ist meine Antwort auf die Coding Challenge der BWI.
+
 Diese Lösung baut auf einem beliebig erweiterbaren Design auf. 
 Man ist also zum Beispiel nicht auf die Anzahl der Geräte oder Transporter beschränkt, sondern kann diese beliebig in der index.php anpassen.
 
