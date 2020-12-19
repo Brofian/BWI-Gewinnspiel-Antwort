@@ -3,16 +3,16 @@
 use src\Hardware;
 use src\Transporter;
 
-    //Re-declare the variables as reference for the IDE
+    //Die Variablen werden neu deklariert, um von der IDE als Referenz genutzt werden zu können
     /** @var array $transporter */
     $transporters = $transporters ?? [];
     /** @var array $hardware */
     $hardware = $hardware ?? [];
 ?>
 
-<!-- Warning! -->
-<!-- The following html markup is not commented or well structured, because it doesnt belong to the Project-Code. -->
-<!-- For a serious and more simpler output, please call the index.php from a command line -->
+<!-- Warnung! -->
+<!-- Das folgende HTML Markup ist nicht kommentiert order angemessen strukturiert, da es nicht zum Projekt-Code gehört. -->
+<!-- Für eine ernstere und einfachere Ausgabe, bitte die index.php Datei über die Kommandozeile aufrufen -->
 
 <html lang="de">
     <head>
@@ -147,10 +147,10 @@ use src\Transporter;
     <body>
 
 
-        <div id="result">Total value: <?php echo getTotalValue($transporters); ?></div>
+        <div id="result">Gesamt Nutzwert: <?php echo getTotalValue($transporters); ?></div>
 
 
-        <h1>Transporters</h1>
+        <h1>Transporter</h1>
 
         <div id="resultTable">
             <div id="animationSpace">
@@ -161,12 +161,12 @@ use src\Transporter;
 
                 <thead>
                 <tr>
-                    <td>Truck ID</td>
-                    <td>Maximum weight (in g)</td>
-                    <td>Driver weight (in g)</td>
-                    <td>Unused weight (in g)</td>
-                    <td>Value</td>
-                    <td>Cargo</td>
+                    <td>Transporter ID</td>
+                    <td>Maximal-Gewicht (in g)</td>
+                    <td>Fahrer-Gewicht (in g)</td>
+                    <td>Ungenutzes Gewicht (in g)</td>
+                    <td>Nutzwert</td>
+                    <td>Ladung</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -207,7 +207,7 @@ use src\Transporter;
         </div>
 
 
-        <h1>Additional info: Hardware (end-state)</h1>
+        <h1>Zusätzliche Info: Hardware (End-Zustand)</h1>
 
         <table>
 
@@ -215,10 +215,10 @@ use src\Transporter;
             <tr>
                 <td>Hardware ID</td>
                 <td>Name</td>
-                <td>Weight (in g)</td>
-                <td>Usage-value</td>
-                <td>Efficiency-value</td>
-                <td>Remaining in Storage</td>
+                <td>Gewicht (in g)</td>
+                <td>Nutz-Wert</td>
+                <td>Effizienz-Wert</td>
+                <td>Im Lager verbleibend</td>
             </tr>
             </thead>
 

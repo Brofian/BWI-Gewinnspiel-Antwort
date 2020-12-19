@@ -18,7 +18,7 @@ class Hardware
 
 
     /**
-     * Hardware constructor.
+     * Hardware Konstruktor.
      * @param string $name
      * @param int $required
      * @param int $weight
@@ -39,7 +39,7 @@ class Hardware
 
     /*
     * ##################################################
-    * #             Class-methods                      #
+    * #             Klassen-Methoden                   #
     * ##################################################
     */
 
@@ -74,7 +74,7 @@ class Hardware
 
     /*
      * ##################################################
-     * #             Get-methods                        #
+     * #             Getter-Methoden                    #
      * ##################################################
      */
 

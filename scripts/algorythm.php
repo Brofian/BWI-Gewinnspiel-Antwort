@@ -4,7 +4,8 @@ use src\Hardware;
 use src\Transporter;
 
 /**
- * Main function for computing the optimal load
+ * Haupt-Funktion zur Berechnung der optimalen Ladung
+ *
  * @param array $transporters
  * @param array $hardware
  */
@@ -14,23 +15,23 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
     sortHardwareByEfficiency($hardware);
 
 
-    //Fill the transporters with the most efficient hardware
+    //Die Transporter werden mit der Hardware gefüllt, die den höchsten Effizienz-Wert besitzt
     /** @var Transporter $transporter */
     foreach($transporters as $transporter) {
 
         /** @var Hardware $item */
         foreach($hardware as $item) {
 
-            if($item->getRequirement() == 0) continue; //item is already completely loaded and not required anymore -> skip it
-            if($item->getWeight() >= $transporter->getCurrentCapacity()) continue; //one item is already to heavy for the transporter -> skip it
+            if($item->getRequirement() == 0) continue; //Die benötigte Anzahl der Hardware ist bereits geladen und sie wird deshalb nicht mehr benötigt -> überspringen
+            if($item->getWeight() >= $transporter->getCurrentCapacity()) continue; //die Hardware ist zu schwer um geladen zu werden -> überspringen
 
 
             $maximumAmountByTransporter = (int)($transporter->getCurrentCapacity() / $item->getWeight());
             $maximumAmountByItemStock = $item->getRequirement();
-            //get the maximum amount, limited by the resulting stock and the transporter capacity
+            //die maximal belad-bare Anzahl der Hardware. Limitiert durch nötige Anzahl und die Transporter-Kapazität
             $totalMaximumAmount = min($maximumAmountByItemStock, $maximumAmountByTransporter);
 
-            //add this amount from this hardware to the transporter
+            //Diese Anzahl der Hardware zum Transporter hinzufügen
             $transporter->addHardware($item, $totalMaximumAmount);
 
         }
@@ -39,58 +40,59 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
 
 
 
-
-    //check, if an inefficient, loaded item can be swapped with a slightly more inefficient, but more valuable item
-    //repeat this, until there is no improvement done
+    //Prüfung, ob ein geladenes und inefficientes Teil gegen eines getauscht werden kann, das ein bisschen ineffizienter ist,
+    //aber einen höheren Nutzwert hat und mehr freie kapazität füllen kann.
+    // Das wird wiederholt, bis keine Verbesserung mehr gemacht wurde
     do {
         $changesMade = false;
 
 
-
         foreach($transporters as $transporter) {
 
-            //the currently loaded cargo
+            //Die aktuell geladene Hardware
             $cargo = $transporter->getCurrentCargoRaw();
 
-            //gather the possible swaps in this array
+            //Anzahl der möglichen Tausch-Optionen für diesen Transporter
             $possibleSwaps = [];
 
 
             /** @var Hardware $cargoItem */
             foreach($cargo as $cargoItem) {
 
-                //the criteria for a rational swap:
-                // 1) the capacity after the element is removed, has to be enough for the new item
+                //Das Kriterium für einen sinnvollen Tausch:
+
+                // 1) Die Kapazität nachdem der aktuelle Gegenstand entfernt wurde, muss für einen neuen reichen
                 $capacityWhenRemoved = $transporter->getCurrentCapacity() + $cargoItem->getWeight();
-                // 2) the value of the new item has to be bigger than the old item
+                // 2) Der Nutzwert des neuen Gegenstandes muss höher sein, als der Alte
                 $itemValue = $cargoItem->getValue();
 
 
-                //check the required hardware items by the given criteria
+                //die noch benötigte Hardware wird auf die gegebenen Kriterien geprüft
                 /** @var Hardware $item */
                 foreach($hardware as $item) {
 
-                    //check the criteria for this one hardware item
+                    //Prüfung für: 1 Gegenstand entnehmen, 1 Gegenstand hinzufügen
                     if(
                         $item->getValue() > $itemValue &&
                         $item->getWeight() <= $capacityWhenRemoved &&
                         $item->getRequirement() > 0
                     ) {
-                        //this item would be good to swap, so add it to the array
+                        //Dieses Hardware-Teil ist eine gute Tausch-Option. Es wird daher zum Array hinzugefügt
+                        //Gespeichert wird ein Array, bestehend aus: Item-Name, Verbesserung im Nutzwert
                         $possibleSwaps[$cargoItem->getName()] = [$item->getName(), $item->getValue() - $itemValue];
-
 
                     }
                     else {
 
-                        //start a second loop, to check for a combination from the two hardware items
+                        //Eine zweite Prüfung für: 1 Gegenstand entnehmen, 2 Gegenstände hinzufügen
                         /** @var Hardware $itemSec */
                         foreach ($hardware as $itemSec) {
 
                             $value          =    $item->getValue()           +  $itemSec->getValue();
                             $weight         =    $item->getWeight()          +  $itemSec->getWeight();
 
-                            //if both items are the same, then the requirement is "at least two of them", else "at least one of each"
+                            //wenn beide Gegenstände zur selben Hardware gehören, ist die Bedingung: "mindestens zwei davon",
+                            //ansonsten: "mindestens eines von jedem"
                             if($item->getName() == $itemSec->getName()) {
                                 $requirement = $itemSec->getRequirement();
                             }
@@ -100,13 +102,13 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
 
 
 
-                            //check the criteria for this two hardware items
+                            //Prüfung der Kriterien für diese zwei Hardware-Teile
                             if(
                                 $value > $itemValue &&
                                 $weight <= $capacityWhenRemoved &&
                                 $requirement >= 2
                             ) {
-                                //this items would be good to swap, so add them to the array
+                                //Das wäre ein sinnvoller Tausch. Die Teile werden daher zum Array hinzugefügt
                                 $possibleSwaps[$cargoItem->getName()] = [
                                     [$item->getName(), $itemSec->getName()],
                                     $value - $itemValue];
@@ -124,16 +126,19 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
 
             if(count($possibleSwaps) >= 1) {
 
-                //sort the possible swaps by the most profitable (best swap = first element in the array)
+                //Die ermittelten Tausch-Optionen werden vom profitabelsten abwärts sortiert
                 uasort($possibleSwaps, function($a, $b) {
                     return $b[1] - $a[1];
                 });
 
 
 
-                //this foreach loop is just used to get the associated index, so break from it after the first element
+                //Diese Foreach-Schleife dient nur dazu, den assoziativen Index des ersten Elements zu ermitteln,
+                //und wird deshalb bereits nach dem ersten durchlauf beendet
                 foreach($possibleSwaps as $cargoItemName => $swap) {
-                    //swap the items
+
+                    //Die Gegenstände werden ausgetauscht
+
                     $transporter->removeHardware($hardware[$cargoItemName], 1);
 
                     if(is_array($swap[0])) {
@@ -145,10 +150,11 @@ function doAlgorythmStuff(array &$transporters, array &$hardware) {
                     }
 
 
-
                     break;
                 }
 
+
+                //es wurden Änderungen gemacht, die Schleife soll daher nochmals durchlaufen
                 $changesMade = true;
 
             }

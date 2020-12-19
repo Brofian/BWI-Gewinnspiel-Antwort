@@ -19,7 +19,7 @@ class Transporter
 
 
     /**
-     * Transporter constructor.
+     * Transporter Konstruktor.
      * @param int $driverWeight
      */
     public function __construct(int $driverWeight)
@@ -33,7 +33,7 @@ class Transporter
 
     /*
     * ##################################################
-    * #                 Class-methods                  #
+    * #             Klassen-Methoden                   #
     * ##################################################
     */
 
@@ -41,7 +41,7 @@ class Transporter
 
 
     /**
-     * Adds an $amount of $hardware to the transporter. Returns, wether or not the hardware could be loaded to the transporter
+     * Fügt die $hardware $amount mal zum Transporter hinzu. Gibt zurück, ob die Hardware aufgeladen werden konnte
      *
      * @param Hardware $hardware
      * @param int $amount
@@ -53,21 +53,22 @@ class Transporter
 
 
         if($this->getCurrentCapacity() < $newWeight) {
-            //not enough space for the new hardware -> cancel
+            //es gibt nicht genug Platz für die neue Hardware
             return false;
         }
         else {
-            //enough space -> store the hardware
+            //es gibt genug Platz für die neue Hardware
+
             if(isset($this->cargo[$hardware->getName()])) {
-                //the hardware is already loaded, add $amount on top
+                //Die Hardware ist bereits geladen. Die neue Anzahl wird auf die bestehende addiert
                 $this->cargo[$hardware->getName()][1] += $amount;
             }
             else {
-                //add a new entry for the hardware
+                //Es wird ein neuer Eintrag für die Hardware im Array angelegt
                 $this->cargo[$hardware->getName()] = [$hardware, $amount];
             }
 
-            //remove the loaded hardware from the hardware´s stock
+            //Die hinzugefügt Hardware wird von der benötigten Zahl abgezogen
             $hardware->removeFromRequirement($amount);
 
             return true;
@@ -76,7 +77,7 @@ class Transporter
 
 
     /**
-     * Remove the $amount of $hardware from the cargo. Returns, wether or not the hardware could be removed
+     * Entfernt $amount Teile von $hardware aus dem Transporter. Gibt zurück, ob die Hardware entfernt werden konnte
      *
      * @param Hardware $hardware
      * @param int $amount
@@ -84,18 +85,18 @@ class Transporter
      */
     public function removeHardware(Hardware &$hardware, $amount = 1) : bool {
 
-        //if the hardware is stored and enough of it, remove the amount
+        //wenn die Hardware ausreichend geladen ist, wird die gegebene Anzahl entfernt
         if(isset($this->cargo[$hardware->getName()]) && $this->cargo[$hardware->getName()][1] >= $amount) {
 
-            //remove hardware from cargo
+
             $this->cargo[$hardware->getName()][1] -= $amount;
 
-            //when there is no loaded $hardware in the cargo, remove the entry
+            //Wenn kein Teil dieser Hardware übrig bleibt, wird der Eintrag aus dem Array entfernt
             if($this->cargo[$hardware->getName()][1] <= 0) {
                 unset($this->cargo[$hardware->getName()]);
             }
 
-            //add the removed hardware back to the stock
+            //Die entfernte Anzahl wird wieder zu der benötigten Zahl addiert
             $hardware->addToRequirement($amount);
 
             return true;
@@ -116,7 +117,7 @@ class Transporter
 
     /*
      * ##################################################
-     * #             Get-methods                        #
+     * #             Getter-Methoden                    #
      * ##################################################
      */
 
@@ -125,7 +126,7 @@ class Transporter
 
 
     /**
-     * Returns the current capacity of the transporter, that can be filled with more hardware
+     * Gibt die aktuelle Kapazität des Transporters zurück, die noch mit Hardware gefüllt werden kann
      *
      * @return int
      */
@@ -148,7 +149,7 @@ class Transporter
 
 
     /**
-     * Sums up and returns the value of the current load (value = usage-value)
+     * Summiert und gibt den Gesamt-Nutzwert der aktuellen Ladung zurück
      *
      * @return int
      */
@@ -171,7 +172,7 @@ class Transporter
 
 
     /**
-     * Returns the current load
+     * Gibt die aktuelle Ladung zurück
      *
      * @return array
      */
@@ -183,7 +184,7 @@ class Transporter
 
 
     /**
-     * Returns only an array of the stored hardware without any information about the amount
+     * Gibt die aktuelle Ladung zurück, allerdings ohne Informationen bezüglich der Menge der Ladung
      *
      * @return array
      */

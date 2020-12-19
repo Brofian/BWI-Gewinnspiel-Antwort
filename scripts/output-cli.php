@@ -4,7 +4,7 @@ use src\Hardware;
 use src\Transporter;
 
 
-    //Re-declare the variables as reference for the IDE
+    //Die Variablen werden neu deklariert, um von der IDE als Referenz genutzt werden zu können
     /** @var array  $transporter */
     $transporters = $transporters ?? [];
     /** @var array  $hardware */
@@ -14,7 +14,7 @@ use src\Transporter;
 
     echo PHP_EOL;
     echo "--------------------------------------------------------" . PHP_EOL;
-    echo "|                      Result                          |" . PHP_EOL;
+    echo "|                      Ergebnis                        |" . PHP_EOL;
     echo "--------------------------------------------------------" . PHP_EOL;
     echo PHP_EOL;
 
@@ -24,7 +24,7 @@ use src\Transporter;
     foreach($transporters as $transporter) {
         $counter = isset($counter) ? $counter++ : 1 ;
 
-        echo "The " . $counter . ". transporter:" . PHP_EOL;
+        echo "Der " . $counter . ". Transporter:" . PHP_EOL;
 
 
         //output the loaded cargo
@@ -40,8 +40,8 @@ use src\Transporter;
 
         //output the summary for this transporter
         echo PHP_EOL;
-        echo "   - Value: " . $transporter->getCurrentValue() . PHP_EOL;
-        echo "   - Unused capacity: " . $transporter->getCurrentCapacity() . "g" . PHP_EOL;
+        echo "   - Nutzwert: " . $transporter->getCurrentValue() . PHP_EOL;
+        echo "   - Ungenutze Lade-Kapazität: " . $transporter->getCurrentCapacity() . "g" . PHP_EOL;
 
         echo PHP_EOL;
         echo PHP_EOL;
@@ -57,6 +57,6 @@ use src\Transporter;
 
 
     echo "--------------------------------------------------------" . PHP_EOL;
-    echo " Total value: " . $totalValue . PHP_EOL;
+    echo " Gesamt-Nutzwert: " . $totalValue . PHP_EOL;
     echo "--------------------------------------------------------" . PHP_EOL;
 

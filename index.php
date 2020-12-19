@@ -1,11 +1,11 @@
 <?php
 
 
-//Require the two classes for the Hardware and for the transporters
+//Die Klassen für die Hardware und für die Transporter werden einmalig geladen
 require_once("src/Hardware.php");
 require_once("src/Transporter.php");
 
-//use class namespaces
+
 use src\Hardware;
 use src\Transporter;
 
@@ -13,21 +13,21 @@ use src\Transporter;
 
 
 /*
- * Define Values
+ * Definition der gegebenen Werte
  */
 
 /** @var array $hardware */
 $hardware = [
-    'Notebook Büro 13"' => new Hardware('Notebook Büro 13"', 205, 2451, 40),
-    'Notebook Büro 14"' => new Hardware('Notebook Büro 14"', 420, 2978, 35),
-    'Notebook outdoor' => new Hardware('Notebook outdoor', 450, 3625, 80),
-    'Mobiltelefon Büro' => new Hardware('Mobiltelefon Büro', 60, 717, 30),
-    'Mobiltelefon outdoor' => new Hardware('Mobiltelefon outdoor', 157, 988, 60),
-    'Mobiltelefon Heavy Duty' => new Hardware('Mobiltelefon Heavy Duty', 220, 1220, 65),
-    'Tablet Büro klein' => new Hardware('Tablet Büro klein', 620, 1405, 40),
-    'Tablet Büro groß' => new Hardware('Tablet Büro groß', 250, 1455, 40),
-    'Tablet outdoor klein' => new Hardware('Tablet outdoor klein', 540, 1690, 45),
-    'Tablet outdoor groß' => new Hardware('Tablet outdoor groß', 370, 1980, 68),
+    'Notebook Büro 13"'         => new Hardware('Notebook Büro 13"', 205, 2451, 40),
+    'Notebook Büro 14"'         => new Hardware('Notebook Büro 14"', 420, 2978, 35),
+    'Notebook outdoor'          => new Hardware('Notebook outdoor', 450, 3625, 80),
+    'Mobiltelefon Büro'         => new Hardware('Mobiltelefon Büro', 60, 717, 30),
+    'Mobiltelefon outdoor'      => new Hardware('Mobiltelefon outdoor', 157, 988, 60),
+    'Mobiltelefon Heavy Duty'   => new Hardware('Mobiltelefon Heavy Duty', 220, 1220, 65),
+    'Tablet Büro klein'         => new Hardware('Tablet Büro klein', 620, 1405, 40),
+    'Tablet Büro groß'          => new Hardware('Tablet Büro groß', 250, 1455, 40),
+    'Tablet outdoor klein'      => new Hardware('Tablet outdoor klein', 540, 1690, 45),
+    'Tablet outdoor groß'       => new Hardware('Tablet outdoor groß', 370, 1980, 68),
 ];
 
 
@@ -43,7 +43,7 @@ $transporters = [
 
 
 /*
- * Computation (happens in the functions, that are declared in scripts/algorythm.php)
+ * Berechnung der Ladung (passiert in den Funktionen, die in der Datei "scripts/algorythm.php" deklariert sind)
  */
 include("scripts/algorythm.php");
 doAlgorythmStuff($transporters, $hardware);
@@ -55,13 +55,13 @@ doAlgorythmStuff($transporters, $hardware);
 
 
 /*
- * Scheme for the output
+ * Das Schema für die Ausgabe
  */
 if(defined('STDIN')) {
-    //the file is called from the cli
+    //Die Datei wurde von der Kommandozeile aufgerufen
     include("scripts/output-cli.php");
 }
 else {
-    //the file is called from a browser
+    //Die Datei wurde von einem Browser aufgerufen
     include("scripts/output-browser.php");
 }
