@@ -12,6 +12,7 @@ Ausführung
 Für die Ausführung des Codes stehen zwei Möglichkeiten zur Verfügung:
 1) Ist auf dem aktuellen Rechner / Server PHP installiert, kann das Programm über die Kommandozeile mit  `php pfad/zum/projekt/index.php` gestartet werden
 2) Sollte das Programm auf einem Webserver installiert sein, kann durch das aufrufen der index.php im Browser das Programm gestartet werden
+    - Beispielsweise kann das Programm Xampp installiert und die Dateien darin im Ordner `htdocs` abgelegt werden. Das Programm kann dann im Browser unter `localhost` aufgerufen werden
 
 Hinweis: Die Ansicht im Browser enthält mehr Details, während sich die CLI-Ansicht auf das Ergebnis beschränkt
 
